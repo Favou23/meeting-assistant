@@ -1,4 +1,5 @@
 ### gradio ui configuration 
+import os 
 import gradio as gr
 from main import process_meeting 
 
