@@ -1,12 +1,14 @@
 import os 
 from dotenv import load_dotenv
 from openai import OpenAI
+
+
+
 load_dotenv()
 groq_base_url= "https://api.groq.com/openai/v1"
 api_key = os.getenv("GROQ_API_KEY")
 
 openai = OpenAI(base_url = groq_base_url, api_key =api_key)
-openai()
 transcription_model = "whisper-large-v3-turbo"
 text_model = "openai/gpt-oss-120b"
 
@@ -40,10 +42,27 @@ def sumarize (transcribed_audio):
         model = text_model, messages=messages
     )
     results = response.choices[0].message.content
-    print(results)
+    return results
+    
+    
+    
+def create_minutes_file(summary):
+
+    file_path = "meeting_minutes.md"
+
+    with open(file_path, "w", encoding="utf-8") as file:
+        file.write(summary)
+
+    return file_path
     
 def process_meeting(audio_file):
     transcript =transcribe(audio_file)
     summary = sumarize(transcript)
+    minutes_file = create_minutes_file(summary)
     
-    return summary
+    return  transcript, summary, minutes_file
+
+
+
+
+
