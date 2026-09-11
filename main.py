@@ -37,6 +37,7 @@ def sumarize (transcribed_audio):
         {"role": "system", "content": system_prompt},
         {"role":"user", "content": user_prompt}
     ]
+    
 
     response = openai.chat.completions.create(
         model = text_model, messages=messages
